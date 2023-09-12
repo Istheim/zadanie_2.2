@@ -1,0 +1,50 @@
+{% extends 'catalog/base.html' %}
+{% load filters %}
+
+{% block content%}
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Продукт</h4>
+                </div>
+                <div class="card-body">
+                    <h2>{{ object.name }}</h2>
+                    <p>Описание товара: {{ product.description }}</p>
+                    {% for version in versions %}
+                    {% if version.is_current %}
+                    <p class="text-info">Версия: {{ version.version_number }}({{ version.version_name }})</p>
+                    {% endif %}
+                    {% endfor %}
+                    <p>Категория: {{ product.category }}</p>
+                    <p>Цена: {{ product.price }} руб.</p>
+                    <p>{{ product.lashed }} </p>
+                    <img class="img"
+                         src="{% mediapath object.preview_image %}"
+                         alt="{{ product.name }}"
+                         width="200"
+                         height="250"
+                    >
+
+                    {% if user.is_authenticated and object.lashed == user %}
+                    <a href="{% url 'edit_product' object.pk %}" type="button" class="btn btn-primary">Изменить</a>
+                    {% elif perms.catalog.change_product %}
+                    <a href="{% url 'moderate_product' object.pk %}" type="button" class="btn btn-primary">Модерировать</a>
+                    {% endif %}
+
+
+                    {% if user.is_superuser %}
+                    <a href="{% url 'delete_product' object.pk %}" type="button"
+                       class="btn btn-primary">Удалить</a>
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

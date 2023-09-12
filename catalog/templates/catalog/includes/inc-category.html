@@ -1,0 +1,44 @@
+{% load filters %}
+{% for object in object_list %}
+<div class="col-3">
+    <div class="card mb-4 box-shadow">
+        <div class="card">
+            <div class="card-body">
+                {{ object.category }}
+                <h3 class="card-title">{{ object.name }}</h3>
+                <h4 class="card-title pricing-card-title">{{ object.price }} руб.</h4>
+                <img class="img"
+                     src="{% mediapath object.preview_image %}"
+                     alt="{{ product.name }}"
+                     width="200"
+                     height="250">
+                <p class="card-text">
+                    {{ object.description | split }}
+                </p>
+
+                {% for version in object.version_set.all %}
+                {% if version.is_current %}
+                <p class="text-info">Версия: {{ version.version_number }}({{ version.version_name }})</p>
+                {% endif %}
+                {% endfor %}
+                <a href="{% url 'product' object.pk %}" type="button"
+                   class="btn btn-primary">Просмотр</a>
+                {% if user.is_superuser %}
+                <a href="{% url 'delete_product' object.pk %}" type="button"
+                   class="btn btn-primary">Удалить</a>
+                {% endif %}
+
+
+            </div>
+            {% if perms.catalog.set_published_status %}
+            {% if object.is_active %}
+            <a class="btn btn-warning" href=" {% url 'toggle_activity' object.pk %}">Снять продукт с продажи?</a>
+            {% else %}
+            <a class="btn btn-success" href=" {% url 'toggle_activity' object.pk %}">Вернуть на продажу?</a>
+            {% endif %}
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endfor %}

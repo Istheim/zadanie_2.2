@@ -1,0 +1,37 @@
+{% extends 'catalog/base.html' %}
+
+{% load my_filters %}
+
+{% block content%}
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">
+                        Блог  "{{ object.title }}" ({{ object.slug }})
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <p>
+                        {{ object.context }}
+                    </p>
+                    <img class="img"
+                         src="{{ object.image|blog_mediapath }}"
+                         alt="{{ blog.name }}"
+                         width="200"
+                         height="250"
+                    >
+                </div>
+                <div class="card-footer">
+                    Опубликован: {{ object.creation_date }}
+                </div>
+                <div class="card-footer">
+                    Просмотры {{ object.views }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

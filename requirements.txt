@@ -1,0 +1,8 @@
+asgiref
+Django
+psycopg2-binary
+sqlparse
+pillow
+pytils
+python-dotenv
+ipython
