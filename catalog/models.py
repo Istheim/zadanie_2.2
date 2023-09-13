@@ -23,6 +23,7 @@ class Category(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
+
 class Product(models.Model):
     name = models.CharField(max_length=50, blank=False, verbose_name='наименование')
     description = models.TextField(verbose_name='описание')
@@ -61,7 +62,6 @@ class Version(models.Model):
         verbose_name_plural = 'Версии'
 
 
-
 class Contact(models.Model):
     name = models.CharField(max_length=100, verbose_name='name')
     phone = models.IntegerField(unique=True, null=False, blank=False)
@@ -69,6 +69,7 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
+
 
 def toggle_activity(request, pk):
     product_item = get_object_or_404(Product, pk=pk)
